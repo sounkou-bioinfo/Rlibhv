@@ -6,7 +6,7 @@
 #include <R_ext/Utils.h>        /* For R_CheckUserInterrupt just in case, we shall see */
 #include <signal.h>             /* For signal handling */
 
-#include "R_libhv.h"
+#include "RC_libhv.h"
 
 /* Use R's macros with the Rf_ prefix */
 /*  probably to avoid since it is moot i think */
