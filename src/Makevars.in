@@ -2,6 +2,7 @@ PKG_CPPFLAGS = -I@INST_DIR@/include -I@INST_DIR@/include/hv -I@INST_DIR@/include
 PKG_LIBS = @INST_DIR@/lib/libhv.a -L@INST_DIR@/lib -L@INST_DIR@/ev/lib -L@INST_DIR@/cares/lib -lnghttp2 -lcares -lev @SSL@  -lpthread -ldl -fPIC
 
 # Use wildcards to automatically include all C and C++ source files
+# this is of no use now
 SOURCES = $(wildcard *.c *.cpp)
 OBJECTS = $(SOURCES:.c=.o)
 OBJECTS := $(OBJECTS:.cpp=.o)
