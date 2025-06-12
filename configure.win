@@ -124,8 +124,8 @@ export PKG_CONFIG_PATH="${INST_DIR}/lib/pkgconfig:$PKG_CONFIG_PATH"
 --prefix="${INST_DIR}"
 
 # Add -lstdc++ for C++ standard library functions and -lwinmm for timeSetEvent
-make CFLAGS="-I${INST_DIR}/include ${OPENSSL_CFLAGS}" \
-     CXXFLAGS="-I${INST_DIR}/include ${OPENSSL_CFLAGS}" \
+make CFLAGS="-I${INST_DIR}/include ${OPENSSL_CFLAGS} -fPIC" \
+     CXXFLAGS="-I${INST_DIR}/include ${OPENSSL_CFLAGS} -fPIC" \
      LDFLAGS="-L${INST_DIR}/lib -lnghttp2 -lcurl $LIB_OPENSSL -lstdc++ -lwinmm"
 # make install to install the binaries of the examples
 make install
