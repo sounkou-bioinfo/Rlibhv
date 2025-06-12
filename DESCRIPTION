@@ -3,7 +3,8 @@ Title: 'libhv' C/C++ Network Library static library for R packages
 Version: 1.3.3-0.0.9000
 Date: 2025-06-12
 Authors@R: 
-    person("Sounkou", "Mahamane", "Toure" , "sounkoutoure@gmail.com", role = c("aut", "cre"))
+    person(given = "Sounkou", family = "Toure", middle = "Mahamane",
+    email = "sounkoutoure@gmail.com", role = c("aut", "cre"))
 Description: Provides 'libhv' static library for R package use. 
     'libhv' is a C/C++ networking library that offers high-performance event-driven networking capabilities 
     including HTTP1/2 client/server, WebSocket, TCP/UDP servers, and more.
