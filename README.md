@@ -42,3 +42,7 @@ This package includes bundled  versions (for linux) of:
 - [libev](http://software.schmorp.de/pkg/libev.html)
 - [c-ares](https://c-ares.org/)
 - [nghttp2](https://nghttp2.org/)
+
+## Licence
+
+This package is licensed under the MIT License. See the [LICENSE](LICENSE). Bundled libraries are licensed under their respective licenses.
