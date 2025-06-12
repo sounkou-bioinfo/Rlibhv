@@ -119,8 +119,8 @@ LIBCARES_LIBS="-L${INST_DIR}/cares/lib -lcares" \
   --disable-shared --enable-static \
   --disable-examples --disable-app \
   --disable-threads \
-  --with-zlib -\
-  -enable-lib-only "${NGHTTP2_OPENSSL_CONFIG}" \
+  --with-zlib \
+  --enable-lib-only "${NGHTTP2_OPENSSL_CONFIG}" \
   --with-libev=yes \
   --with-libcares=yes \
   PKG_CONFIG_PATH="${INST_DIR}/lib/pkgconfig:$PKG_CONFIG_PATH"
