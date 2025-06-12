@@ -1,15 +1,35 @@
 #!/bin/bash
 # configure libhv and its dependencies for R Libhv
-set -euo pipefail
-export PKG_CONFIG_PATH=`which pkg-config`
-# Get R_HOME
+# Windows specific configuration for building libhv and dependencies
+# This script handles Windows builds using Rtools (version 45 or later)
+# additional care is needed to make this actually work
+# TODO: make it work (some c++ std thingy etc) 
+#     pass the R building AC, RANLIB, AR, CC etc
+
+
+set -eou pipefail
+
+PKG_CONFIG_PATH=$(which pkg-config)
+export PKG_CONFIG_PATH="${PKG_CONFIG_PATH}:$PKG_CONFIG_PATH"
+
+# Get R_HOME 
 : ${R_HOME=`R RHOME`}
 if test -z "${R_HOME}"; then
   echo "Could not determine R_HOME"
   exit 1
 fi
 
-# Package inst directory
+#---- some sanity checks for Windows ----
+if ! command -v pkg-config >/dev/null 2>&1; then
+  echo "pkg-config is not installed. Please install it to proceed."
+  exit 1
+fi
+if ! command -v make >/dev/null 2>&1; then
+  echo "make is not installed. Please install it to proceed."
+  exit 1
+fi
+
+#------ Variables and Paths ------
 PACKAGE_DIR=$(cd "$(dirname "$0")"; pwd)
 INST_DIR="${PACKAGE_DIR}/inst"
 # Check for OpenSSL using pkg-config
@@ -36,7 +56,10 @@ echo "=== Building dependencies for libhv ==="
 # 1. Build and install libev
 echo "Building libev..."
 cd "${PACKAGE_DIR}/src/libev" || exit 1
-CFLAGS="" CXXFLAGS="" ./configure --prefix="${INST_DIR}/ev" --disable-shared --enable-static
+CFLAGS="" CXXFLAGS="" \
+./configure \
+  --prefix="${INST_DIR}/ev" \
+  --disable-shared --enable-static
 make
 make install
 cd "${PACKAGE_DIR}" || exit 1
@@ -44,8 +67,13 @@ cd "${PACKAGE_DIR}" || exit 1
 # 2. Build and install c-ares
 echo "Building c-ares..."
 cd "${PACKAGE_DIR}/src/c-ares" || exit 1
-CFLAGS="" CXXFLAGS="" ./configure --prefix="${INST_DIR}/cares" --disable-tests --disable-shared --enable-static
-# Rtools comes with c-ares
+CFLAGS="" CXXFLAGS="" \
+./configure \
+  --prefix="${INST_DIR}/cares" \
+  --disable-tests \
+  --disable-shared \
+  --enable-static
+# Rtools comes with c-ares so we can skip if the build fails
 make || true
 make install || true
 cd "${PACKAGE_DIR}" || exit 1
@@ -85,7 +113,7 @@ cd "${PACKAGE_DIR}/src/libhv" || exit 1
 # Ensure libhv can find nghttp2 headers and libraries
 export CFLAGS="-I${INST_DIR}/include ${OPENSSL_CFLAGS}"
 export CXXFLAGS="-I${INST_DIR}/include ${OPENSSL_CFLAGS}"
-# Remove -Wl,-rpath option which is not appropriate for Windows
+
 export LDFLAGS="${LDFLAGS:-} -L${INST_DIR}/lib"
 export PKG_CONFIG_PATH="${INST_DIR}/lib/pkgconfig:$PKG_CONFIG_PATH"
 # Configure libhv with dependency paths
@@ -106,6 +134,9 @@ make install
 cd "${PACKAGE_DIR}" || exit 1
 
 # Create Makevars from Makevars.in
-sed -e "s|@INST_DIR@|${INST_DIR}|g" -e "s|@SSL@|${LIB_OPENSSL}|g" -e "s|@SSL_CFLAGS@|${OPENSSL_CFLAGS}|g" src/Makevars.in > src/Makevars.win
+sed -e "s|@INST_DIR@|${INST_DIR}|g" \
+    -e "s|@SSL@|${LIB_OPENSSL}|g" \
+    -e "s|@SSL_CFLAGS@|${OPENSSL_CFLAGS}|g" src/Makevars.in > src/Makevars.win
 echo "=== Configuration complete ==="
+# TODO remove detritus to make R CMD check happy
 exit 0

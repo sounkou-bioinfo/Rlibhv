@@ -11,8 +11,7 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
-SystemRequirements: pkg-config, GNU Make, curl, libcurl, openssl, zlib
+SystemRequirements: pkg-config, GNU make, curl, libcurl, openssl, zlib
 Suggests:
-    knitr,
-    rmarkdown,
+    litedown,
     tinytest
