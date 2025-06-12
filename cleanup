@@ -2,6 +2,7 @@
 # cleanup script for Rlibhv and its dependencies
 
 ThisDir=$(cd "$(dirname "$0")"; pwd)
+
 LIBHV_DIR="${ThisDir}/src/libhv"
 LIBEV_DIR="${ThisDir}/src/libev"
 CARES_DIR="${ThisDir}/src/c-ares"
@@ -12,15 +13,16 @@ rm -f src/*.o src/*.so src/*.dll src/*.dylib src/Makevars
 # Clean inst directory (remove compiled library and headers)
 rm -rf inst/lib/* inst/include/*
 # Clean libhv directory
+
 cd $LIBHV_DIR && make clean && cd - || echo "Failed to clean libhv"
 
 # Clean libev directory
-cd $LIBEV_DIR && make clean && cd - || echo "Failed to clean libev"
+#cd $LIBEV_DIR && make clean && cd - || echo "Failed to clean libev"
 
 # Clean c-ares directory
-cd $CARES_DIR && make clean && cd - || echo "Failed to clean c-ares"
+#cd $CARES_DIR && make clean && cd - || echo "Failed to clean c-ares"
 
 # Clean nghttp2 directory
-cd $NGHTTP2_DIR && make clean && cd - || echo "Failed to clean nghttp2"
+#cd $NGHTTP2_DIR && make clean && cd - || echo "Failed to clean nghttp2"
 
 

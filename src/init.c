@@ -4,7 +4,7 @@
 #include <stdlib.h> // for NULL
 #include <R_ext/Rdynload.h>
 
-#include "Rlibhv.h"
+#include "RC_libhv.h"
 
 /* .Call calls */
 static const R_CallMethodDef CallEntries[] = {
