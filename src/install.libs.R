@@ -107,3 +107,6 @@ if (dir.exists("../inst/lib")) {
 }
 
 message("Installation completed successfully!")
+# check content of the package directory
+message("Package directory contents:")
+print(list.files(R_PACKAGE_DIR, recursive = TRUE))
