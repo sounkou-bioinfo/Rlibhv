@@ -1,0 +1,111 @@
+#!/bin/bash
+# configure libhv and its dependencies for R Libhv
+set -euo pipefail
+export PKG_CONFIG_PATH=`which pkg-config`
+# Get R_HOME
+: ${R_HOME=`R RHOME`}
+if test -z "${R_HOME}"; then
+  echo "Could not determine R_HOME"
+  exit 1
+fi
+
+# Package inst directory
+PACKAGE_DIR=$(cd "$(dirname "$0")"; pwd)
+INST_DIR="${PACKAGE_DIR}/inst"
+# Check for OpenSSL using pkg-config
+OPENSSL_CONFIG=""
+NGHTTP2_OPENSSL_CONFIG=""
+LIB_OPENSSL=$(pkg-config --libs openssl 2>/dev/null || true)
+OPENSSL_CFLAGS=$(pkg-config --cflags openssl 2>/dev/null || true)
+if pkg-config --exists openssl; then
+  echo "OpenSSL found with pkg-config, enabling OpenSSL support"
+  OPENSSL_CONFIG="--with-openssl"
+  NGHTTP2_OPENSSL_CONFIG="--with-openssl"
+else
+  echo "OpenSSL not found with pkg-config, please configure with --without-openssl"
+  OPENSSL_CONFIG="--without-openssl"
+  OPENSSL_CFLAGS=""
+  LIB_OPENSSL=""
+fi
+# Ensure inst directory exists
+mkdir -p "${INST_DIR}/lib"
+mkdir -p "${INST_DIR}/include"
+
+echo "=== Building dependencies for libhv ==="
+
+# 1. Build and install libev
+echo "Building libev..."
+cd "${PACKAGE_DIR}/src/libev" || exit 1
+CFLAGS="" CXXFLAGS="" ./configure --prefix="${INST_DIR}/ev" --disable-shared --enable-static
+make
+make install
+cd "${PACKAGE_DIR}" || exit 1
+
+# 2. Build and install c-ares
+echo "Building c-ares..."
+cd "${PACKAGE_DIR}/src/c-ares" || exit 1
+CFLAGS="" CXXFLAGS="" ./configure --prefix="${INST_DIR}/cares" --disable-tests --disable-shared --enable-static
+# Rtools comes with c-ares
+make || true
+make install || true
+cd "${PACKAGE_DIR}" || exit 1
+
+# 3. Build and install nghttp2
+echo "Building nghttp2..."
+cd "${PACKAGE_DIR}/src/nghttp2" || exit 1
+# Only build the library component, disable tests and examples
+# Pass the paths to libev and c-ares explicitly
+# if OpenSSL 
+CFLAGS="-U__STRICT_ANSI__ -I${INST_DIR}/include -I${INST_DIR}/ev/include -I${INST_DIR}/cares/include " \
+CXXFLAGS="-U__STRICT_ANSI__ -I${INST_DIR}/include -I${INST_DIR}/ev/include -I${INST_DIR}/cares/include " \
+LDFLAGS="-L${INST_DIR}/lib -L${INST_DIR}/cares/lib -L${INST_DIR}/ev/lib" \
+LIBEV_CFLAGS="-I${INST_DIR}/include/ev " \
+LIBEV_LIBS="-L${INST_DIR}/ev/lib -lev" \
+LIBCARES_CFLAGS="-I${INST_DIR}/cares/include " \
+LIBCARES_LIBS="-L${INST_DIR}/cares/lib -lcares" \
+./configure --prefix="${INST_DIR}" \
+  --disable-shared --enable-static \
+  --disable-examples --disable-app \
+  --disable-threads --with-zlib --enable-lib-only "${NGHTTP2_OPENSSL_CONFIG}" \
+  --with-libev=yes \
+  --with-libcares=yes \
+  PKG_CONFIG_PATH="${INST_DIR}/lib/pkgconfig:$PKG_CONFIG_PATH"
+
+# Build with a single process to avoid potential race conditions
+# Rtools comes with nghttp2, WIP: add version check for the Rtools' version
+# the libev issue
+make || true
+#make install
+cd "${PACKAGE_DIR}" || exit 1
+
+# 4. Configure and build libhv
+echo "Building libhv..."
+cd "${PACKAGE_DIR}/src/libhv" || exit 1
+
+# Ensure libhv can find nghttp2 headers and libraries
+export CFLAGS="-I${INST_DIR}/include ${OPENSSL_CFLAGS}"
+export CXXFLAGS="-I${INST_DIR}/include ${OPENSSL_CFLAGS}"
+# Remove -Wl,-rpath option which is not appropriate for Windows
+export LDFLAGS="${LDFLAGS:-} -L${INST_DIR}/lib"
+export PKG_CONFIG_PATH="${INST_DIR}/lib/pkgconfig:$PKG_CONFIG_PATH"
+# Configure libhv with dependency paths
+./configure \
+--with-nghttp2 \
+--with-curl "${OPENSSL_CONFIG}" \
+--enable-uds \
+--prefix="${INST_DIR}"
+
+# Add -lstdc++ for C++ standard library functions and -lwinmm for timeSetEvent
+make CFLAGS="-I${INST_DIR}/include ${OPENSSL_CFLAGS}" \
+     CXXFLAGS="-I${INST_DIR}/include ${OPENSSL_CFLAGS}" \
+     LDFLAGS="-L${INST_DIR}/lib -lnghttp2 -lcurl $LIB_OPENSSL -lstdc++ -lwinmm"
+# make install to install the binaries of the examples
+make install
+
+# Return to the package root directory
+cd "${PACKAGE_DIR}" || exit 1
+
+# Create Makevars from Makevars.in
+sed -e "s|@INST_DIR@|${INST_DIR}|g" -e "s|@SSL@|${LIB_OPENSSL}|g" -e "s|@SSL_CFLAGS@|${OPENSSL_CFLAGS}|g" src/Makevars.in > src/Makevars.win
+echo "=== Configuration complete ==="
+exit 0

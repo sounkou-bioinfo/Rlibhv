@@ -1,0 +1,12 @@
+^Rlibhv\.Rproj$
+^\.Rproj\.user$
+^src/libhv/.bazelrc
+^src/libhv/.clang-format
+^src/libhv/.travis\.yml
+^\.vscode/.*$
+^src/libhv/\.github/.*$
+^src/libhv/html/.*$
+^LICENSE\.md$
+^\.vscode/.*$
+^\.github/.*$
+^\.inst/keep$

@@ -1,0 +1,18 @@
+Package: Rlibhv
+Title: R Bindings for the 'libhv' C/C++ Network Library
+Version: 0.0.0.9000
+Authors@R: 
+    person("Sounkou", "Mahamane", "Toure" , "sounkoutoure@gmail.com", role = c("aut", "cre"))
+Description: Provides R bindings for the 'libhv' C/C++ networking library. 
+    This package offers high-performance event-driven networking capabilities 
+    including HTTP1/2 client/server, WebSocket, TCP/UDP servers, and more. 
+    'libhv' is a cross-platform network library similar to'libuv'.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.2
+SystemRequirements: pkg-config, GNU Make, curl, libcurl, openssl, zlib
+Suggests:
+    knitr,
+    rmarkdown,
+    tinytest
