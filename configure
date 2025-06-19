@@ -118,7 +118,6 @@ LIBCARES_LIBS="-L${INST_DIR}/cares/lib -lcares" \
 ./configure --prefix="${INST_DIR}" \
   --disable-shared --enable-static \
   --disable-examples --disable-app \
-  --disable-threads \
   --with-zlib \
   --enable-lib-only "${NGHTTP2_OPENSSL_CONFIG}" \
   --with-libev=yes \
