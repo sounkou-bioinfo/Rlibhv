@@ -1,8 +1,9 @@
 PKG_CPPFLAGS = -I@INST_DIR@/include -I@INST_DIR@/include/hv -I@INST_DIR@/include/ev -I@INST_DIR@/include/cares @SSL_CFLAGS@
 PKG_LIBS = @INST_DIR@/lib/libhv.a -L@INST_DIR@/lib -L@INST_DIR@/ev/lib -L@INST_DIR@/cares/lib -lnghttp2 -lcares -lev @SSL@  -lpthread -ldl -fPIC
 
-# Use wildcards to automatically include all C and C++ source files
-# this is of no use now
-SOURCES = $(wildcard *.c *.cpp)
-OBJECTS = $(SOURCES:.c=.o)
-OBJECTS := $(OBJECTS:.cpp=.o)
+# Rcpp source files (like rcpp_libhv_servers.cpp) in src/ will be compiled automatically by R.
+# The explicit SOURCES and OBJECTS lines below are not needed for typical R package structure
+# when linking against pre-built static libraries and Rcpp files.
+# SOURCES = $(wildcard *.c *.cpp)
+# OBJECTS = $(SOURCES:.c=.o)
+# OBJECTS := $(OBJECTS:.cpp=.o)

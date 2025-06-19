@@ -5,11 +5,14 @@ Date: 2025-06-12
 Authors@R: 
     person(given = "Sounkou", family = "Toure", middle = "Mahamane",
     email = "sounkoutoure@gmail.com", role = c("aut", "cre"))
-Description: Provides 'libhv' static library for R package use. 
+Description: Provides 'libhv' static library for R package use, with Rcpp bindings for TCP and HTTP servers including a Rook interface.
     'libhv' is a C/C++ networking library that offers high-performance event-driven networking capabilities 
     including HTTP1/2 client/server, WebSocket, TCP/UDP servers, and more.
 License: MIT + file LICENSE
 Encoding: UTF-8
+Imports: Rcpp, R6, Rhttpuv
+LinkingTo: Rcpp
+CXX_STD: CXX11
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
 SystemRequirements: pkg-config, GNU make, curl, libcurl, openssl, zlib
