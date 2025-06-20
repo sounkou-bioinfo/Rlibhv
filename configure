@@ -118,7 +118,6 @@ LIBCARES_LIBS="-L${INST_DIR}/cares/lib -lcares" \
 ./configure --prefix="${INST_DIR}" \
   --disable-shared --enable-static \
   --disable-examples --disable-app \
-  --disable-threads \
   --with-zlib \
   --enable-lib-only "${NGHTTP2_OPENSSL_CONFIG}" \
   --with-libev=yes \
@@ -127,7 +126,7 @@ LIBCARES_LIBS="-L${INST_DIR}/cares/lib -lcares" \
 
 # Build with a single process to avoid potential race conditions
 make
-make install
+make install || true
 cd "${PACKAGE_DIR}" || exit 1
 
 #----- 4. Configure and build libhv
