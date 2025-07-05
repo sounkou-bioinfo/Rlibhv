@@ -5,7 +5,7 @@
 #' @return A character string with the version of libhv
 #' @export
 LibhvVersion <- function() {
-    .Call(R_libhv_version)
+    .Call(RC_libhv_version)
 }
 
 #' Get the libhv Compile Version
@@ -15,7 +15,7 @@ LibhvVersion <- function() {
 #' @return A character string with the compile-time version of libhv
 #' @export
 LibhvCompileVersion <- function() {
-    .Call(R_libhv_compile_version)
+    .Call(RC_libhv_compile_version)
 }
 
 #' Get the libhv Version Number
@@ -25,5 +25,5 @@ LibhvCompileVersion <- function() {
 #' @return An integer representing the version number of libhv
 #' @export
 LibhvVersionNumber <- function() {
-    .Call(R_libhv_version_number)
+    .Call(RC_libhv_version_number)
 }

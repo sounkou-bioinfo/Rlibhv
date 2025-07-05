@@ -13,11 +13,11 @@
 #include "hssl.h"
 
 /* R wrapper functions for libhv */
-SEXP R_libhv_version();
-SEXP R_libhv_compile_version();
-SEXP R_libhv_version_number();
+SEXP RC_libhv_version();
+SEXP RC_libhv_compile_version();
+SEXP RC_libhv_version_number();
 
 /* TCP echo server function */
-SEXP R_tcp_echo_server(SEXP port_sexp);
+SEXP RC_tcp_echo_server(SEXP port_sexp);
 
 #endif /* RLIBHV_H */
