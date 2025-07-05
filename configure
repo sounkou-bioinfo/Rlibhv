@@ -157,8 +157,8 @@ export PKG_CONFIG_PATH="${INST_DIR}/lib/pkgconfig:$PKG_CONFIG_PATH"
 
 
 make \
-  CFLAGS="-I${INST_DIR}/include ${OPENSSL_CFLAGS}" \
-  CXXFLAGS="-I${INST_DIR}/include ${OPENSSL_CFLAGS}" \
+  CFLAGS="-I${INST_DIR}/include -I. -Ibase ${OPENSSL_CFLAGS}" \
+  CXXFLAGS="-I${INST_DIR}/include -I. -Ibase ${OPENSSL_CFLAGS}" \
   LDFLAGS="-L${INST_DIR}/lib -fPIC -lnghttp2 -lcurl $LIB_OPENSSL"
 
 
