@@ -1,6 +1,6 @@
 Package: Rlibhv
 Title: 'libhv' C/C++ Network Library static library for R packages
-Version: 1.3.3-0.0.9000
+Version: 1.3.3-0.1
 Date: 2025-06-12
 Authors@R: 
     person(given = c("Sounkou", "Mahamane"), family = "Toure",
