@@ -1,13 +1,13 @@
 #!/bin/sh -e
 
-libdir="/home/runner/work/nghttp2/nghttp2/lib"
+libdir="/home/sounkoutoure/Projects/Rlibhv/src/nghttp2/lib"
 if [ -d "$libdir/.libs" ]; then
     libdir="$libdir/.libs"
 fi
 
-export CGO_CFLAGS="-I/home/runner/work/nghttp2/nghttp2/lib/includes -I/home/runner/work/nghttp2/nghttp2/lib/includes -g -O2"
+export CGO_CFLAGS="-I/home/sounkoutoure/Projects/Rlibhv/src/nghttp2/lib/includes -I/home/sounkoutoure/Projects/Rlibhv/src/nghttp2/lib/includes -I/home/sounkoutoure/Projects/Rlibhv/inst/include -I/home/sounkoutoure/Projects/Rlibhv/inst/ev/include -I/home/sounkoutoure/Projects/Rlibhv/inst/cares/include -fPIC"
 export CGO_CPPFLAGS=""
-export CGO_LDFLAGS="-L$libdir "
+export CGO_LDFLAGS="-L$libdir -L/home/sounkoutoure/Projects/Rlibhv/inst/lib -L/home/sounkoutoure/Projects/Rlibhv/inst/cares/lib -L/home/sounkoutoure/Projects/Rlibhv/inst/ev/lib"
 export LD_LIBRARY_PATH="$libdir"
 export DYLD_LIBRARY_PATH="$libdir"
 export GODEBUG=cgocheck=0
