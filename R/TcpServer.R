@@ -23,7 +23,7 @@ TcpEchoServer <- function(port) {
     message("Press Ctrl+C to stop the server")
 
     # Use .Call with native symbol object
-    .Call(R_tcp_echo_server, port)
+    .Call(RC_tcp_echo_server, port)
 
     invisible(NULL)
 }

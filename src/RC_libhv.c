@@ -1,16 +1,9 @@
-#define R_NO_REMAP
 #include <R.h>
 #include <Rinternals.h>
 #include <Rdefines.h>
-#include <R_ext/Print.h>
-#include <R_ext/Utils.h>        /* For R_CheckUserInterrupt just in case, we shall see */
-#include <signal.h>             /* For signal handling */
-
+#include <signal.h>             
 #include "RC_libhv.h"
 
-/* Use R's macros with the Rf_ prefix */
-/*  probably to avoid since it is moot i think */
-#define USE_RINTERNALS
 
 /* Global variable to store the event loop */
 static hloop_t* g_loop = NULL;
@@ -26,15 +19,15 @@ static void handle_sigint(int sig) {
 }
 
 /* Libhv version functions */
-SEXP R_libhv_version() {
+SEXP RC_libhv_version() {
     return Rf_mkString(hv_version());
 }
 
-SEXP R_libhv_compile_version() {
+SEXP RC_libhv_compile_version() {
     return Rf_mkString(hv_compile_version());
 }
 
-SEXP R_libhv_version_number() {
+SEXP RC_libhv_version_number() {
     return Rf_ScalarInteger(HV_VERSION_NUMBER);
 }
 
@@ -74,7 +67,7 @@ static void on_accept(hio_t* io) {
     hio_read_start(io);
 }
 
-SEXP R_tcp_echo_server(SEXP port_sexp) {
+SEXP RC_tcp_echo_server(SEXP port_sexp) {
     if (!Rf_isInteger(port_sexp) && !Rf_isReal(port_sexp))
         Rf_error("'port' must be an integer");
     

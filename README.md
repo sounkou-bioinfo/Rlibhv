@@ -9,8 +9,8 @@ Rlibhv provides libhv static library for package usage. [libhv](https://github.c
 ## Installation
 
 ```r
-# Install from GitHub
-# devtools::install_github("sounkou-bioinfo/Rlibhv")
+# Install the development version from GitHub
+# devtools::install_github("sounkou-bioinfo/Rlibhv@develop")
 ```
 
 ## Usage
@@ -20,23 +20,26 @@ Rlibhv provides libhv static library for package usage. [libhv](https://github.c
 Rlibhv::LibhvInfo()
 ```
 
-## Example usage (from the bundled binary examples)
+## Example usage (adapted from the bundled binary examples' C/C++ code)
 
 ### TCP Echo Server
 
 ```r
 # Start a TCP echo server on port 8080
 Rlibhv::TcpEchoServer(8080)
-    
 # In another R session or terminal:
 # echo "Hello, world!" | nc localhost 8080
 ```
 
-## How it works ?
+## What's in the box ?
+
+We build libhv static library and provide the headers in the installed directory of this package.
+Package users can then link against the static library and use the headers to build their own R packages that depend on libhv.
+For linux, libev, c-ares, nghttp2 headers are also provided.
 
 ## Dependencies
 
-This package includes bundled  versions (for linux) of:
+This package includes bundled  versions (for linux) of the following libraries:
 
 - [libhv](https://github.com/ithewei/libhv)
 - [libev](http://software.schmorp.de/pkg/libev.html)
