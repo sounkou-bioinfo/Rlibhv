@@ -10,7 +10,7 @@
 #endif
 
 #ifndef HAVE_STDATOMIC_H
-#define HAVE_STDATOMIC_H 1
+#define HAVE_STDATOMIC_H 0
 #endif
 
 #ifndef HAVE_SYS_TYPES_H
@@ -62,15 +62,15 @@
 #endif
 
 #ifndef HAVE_PTHREAD_SPIN_LOCK
-#define HAVE_PTHREAD_SPIN_LOCK 1
+#define HAVE_PTHREAD_SPIN_LOCK 0
 #endif
 
 #ifndef HAVE_PTHREAD_MUTEX_TIMEDLOCK
-#define HAVE_PTHREAD_MUTEX_TIMEDLOCK 1
+#define HAVE_PTHREAD_MUTEX_TIMEDLOCK 0
 #endif
 
 #ifndef HAVE_SEM_TIMEDWAIT
-#define HAVE_SEM_TIMEDWAIT 1
+#define HAVE_SEM_TIMEDWAIT 0
 #endif
 
 #ifndef HAVE_PIPE
@@ -89,11 +89,14 @@
 #define HAVE_SETPROCTITLE 0
 #endif
 
-#define WITH_OPENSSL 1
+/* #undef WITH_OPENSSL */
 /* #undef WITH_GNUTLS */
 /* #undef WITH_MBEDTLS */
-#define ENABLE_UDS 1
+
+/* #undef ENABLE_UDS */
 /* #undef USE_MULTIMAP */
+
+#define WITH_WEPOLL     1
 /* #undef WITH_KCP */
 
 #endif // HV_CONFIG_H_

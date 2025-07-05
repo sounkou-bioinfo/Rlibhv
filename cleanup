@@ -17,16 +17,16 @@ rm -rf inst/lib/* inst/include/*
 
 # Clean libhv directory
 
-#cd $LIBHV_DIR && make clean && cd - || echo "Failed to clean libhv"
+cd $LIBHV_DIR && make clean && cd - || echo "Failed to clean libhv"
 
 # Clean libev directory
-#cd $LIBEV_DIR && make clean && cd - || echo "Failed to clean libev"
+cd $LIBEV_DIR && make clean && cd - || echo "Failed to clean libev"
 
 # Clean c-ares directory
-#cd $CARES_DIR && make clean && cd - || echo "Failed to clean c-ares"
+cd $CARES_DIR && make clean && cd - || echo "Failed to clean c-ares"
 
 # Clean nghttp2 directory
 
-#cd $NGHTTP2_DIR && make clean && cd - || echo "Failed to clean nghttp2"
+cd $NGHTTP2_DIR && make clean && cd - || echo "Failed to clean nghttp2"
 
 
