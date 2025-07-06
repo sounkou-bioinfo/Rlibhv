@@ -147,6 +147,10 @@ export LDFLAGS="-L${INST_DIR}/lib -Wl,-rpath,${INST_DIR}/lib"
 
 export PKG_CONFIG_PATH="${INST_DIR}/lib/pkgconfig:$PKG_CONFIG_PATH"
 
+echo "=== OPENSSL_CFLAGS is ${OPENSSL_CFLAGS} ==="
+ls "${OPENSSL_CFLAGS}"/* || true
+ls "${OPENSSL_CFLAGS}/herr.h" || true
+cat "${OPENSSL_CFLAGS}/herr.h" || true
 # Configure libhv with dependency paths
 
 ./configure \
