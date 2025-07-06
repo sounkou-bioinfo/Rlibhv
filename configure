@@ -140,8 +140,8 @@ echo "Building libhv..."
 cd "${PACKAGE_DIR}/src/libhv" || exit 1
 
 # Ensure libhv can find nghttp2 headers and libraries
-export CFLAGS="-I${INST_DIR}/include"
-export CXXFLAGS="-I${INST_DIR}/include"
+export CFLAGS="-I${INST_DIR}/include ${OPENSSL_CFLAGS}"
+export CXXFLAGS="-I${INST_DIR}/include ${OPENSSL_CFLAGS}"
 
 export LDFLAGS="-L${INST_DIR}/lib -Wl,-rpath,${INST_DIR}/lib"
 
@@ -155,10 +155,9 @@ export PKG_CONFIG_PATH="${INST_DIR}/lib/pkgconfig:$PKG_CONFIG_PATH"
 --enable-uds \
 --prefix="${INST_DIR}"
 
-
 make \
-  CFLAGS="-I${INST_DIR}/include" \
-  CXXFLAGS="-I${INST_DIR}/include" \
+  CFLAGS="-I${INST_DIR}/include ${OPENSSL_CFLAGS}" \
+  CXXFLAGS="-I${INST_DIR}/include ${OPENSSL_CFLAGS}" \
   LDFLAGS="-L${INST_DIR}/lib -fPIC -lnghttp2 -lcurl $LIB_OPENSSL"
 
 
