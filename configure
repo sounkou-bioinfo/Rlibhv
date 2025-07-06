@@ -162,9 +162,9 @@ cat "${IncludeStripped}/herr.h" || true
 --prefix="${INST_DIR}"
 
 make \
-  CFLAGS="-I${INST_DIR}/include  -I. -Iprotocol -Iutil -Ibase -Ievent -Issl -Icpputil -Ievpp -Ihttp -Imqtt ${OPENSSL_CFLAGS}" \
-  CXXFLAGS="-I${INST_DIR}/include  -I. -Iprotocol -Iutil -Ibase -Ievent -Issl -Icpputil -Ievpp -Ihttp -Imqtt ${OPENSSL_CFLAGS}" \
-  CPPFLAGS="-I${INST_DIR}/include  -I. -Iprotocol -Iutil -Ibase -Ievent -Issl -Icpputil -Ievpp -Ihttp -Imqtt ${OPENSSL_CFLAGS}" \
+  CFLAGS="-I${INST_DIR}/include  -I. -Ibase  ${OPENSSL_CFLAGS}" \
+  CXXFLAGS="-I${INST_DIR}/include  -I. -Ibase ${OPENSSL_CFLAGS}" \
+  CPPFLAGS="-I${INST_DIR}/include  -I. -Ibase  ${OPENSSL_CFLAGS}" \
   LDFLAGS="-L${INST_DIR}/lib -fPIC -lnghttp2 -lcurl $LIB_OPENSSL"
 
 
@@ -179,6 +179,5 @@ sed -e "s|@INST_DIR@|${INST_DIR}|g" \
     -e "s|@SSL_CFLAGS@|${OPENSSL_CFLAGS}|g" src/Makevars.in > src/Makevars
 echo "=== Configuration complete ==="
 # TODO remove detritus to make R CMD check happy
-rm src/libhv/a.out || true
-
+rm src/libhv/a.out || true 
 exit 0
