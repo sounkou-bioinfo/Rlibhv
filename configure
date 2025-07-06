@@ -154,7 +154,10 @@ export PKG_CONFIG_PATH="${INST_DIR}/lib/pkgconfig:$PKG_CONFIG_PATH"
 --with-curl "${OPENSSL_CONFIG}" \
 --enable-uds \
 --prefix="${INST_DIR}"
-
+echo "=== OPENSSL_CFLAGS is ${OPENSSL_CFLAGS} ==="
+ls "${OPENSSL_CFLAGS}"/* || true
+ls "${OPENSSL_CFLAGS}/herr.h" || true
+cat "${OPENSSL_CFLAGS}/herr.h" || true
 make \
   CFLAGS="-I${INST_DIR}/include ${OPENSSL_CFLAGS}" \
   CXXFLAGS="-I${INST_DIR}/include ${OPENSSL_CFLAGS}" \
