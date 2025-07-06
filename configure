@@ -179,5 +179,6 @@ sed -e "s|@INST_DIR@|${INST_DIR}|g" \
     -e "s|@SSL_CFLAGS@|${OPENSSL_CFLAGS}|g" src/Makevars.in > src/Makevars
 echo "=== Configuration complete ==="
 # TODO remove detritus to make R CMD check happy
-find src/libhv -name "*a.out" -delete
+rm src/libhv/a.out || true
+
 exit 0
