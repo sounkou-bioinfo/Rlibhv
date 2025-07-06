@@ -149,7 +149,7 @@ export PKG_CONFIG_PATH="${INST_DIR}/lib/pkgconfig:$PKG_CONFIG_PATH"
 
 echo "=== OPENSSL_CFLAGS is ${OPENSSL_CFLAGS} ==="
 IncludeStripped=$(echo "${OPENSSL_CFLAGS}" | sed 's/^-I//g' | sed 's/ -I/ /g')
-
+echo "=== IncludeStripped is ${IncludeStripped} ==="
 ls "${IncludeStripped}"/* || true
 ls "${IncludeStripped}/herr.h" || true
 cat "${IncludeStripped}/herr.h" || true
@@ -178,4 +178,5 @@ sed -e "s|@INST_DIR@|${INST_DIR}|g" \
     -e "s|@SSL_CFLAGS@|${OPENSSL_CFLAGS}|g" src/Makevars.in > src/Makevars
 echo "=== Configuration complete ==="
 # TODO remove detritus to make R CMD check happy
+find src/libhv -name "*a.out" -delete
 exit 0
