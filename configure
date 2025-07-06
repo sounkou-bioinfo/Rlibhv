@@ -162,8 +162,9 @@ cat "${IncludeStripped}/herr.h" || true
 --prefix="${INST_DIR}"
 
 make \
-  CFLAGS="-I${INST_DIR}/include ${OPENSSL_CFLAGS}" \
-  CXXFLAGS="-I${INST_DIR}/include ${OPENSSL_CFLAGS}" \
+  CFLAGS="-I${INST_DIR}/include  -I. -Ibase -Ievent -Issl -Icpputil -Ievpp -Ihttp -Imqtt ${OPENSSL_CFLAGS}" \
+  CXXFLAGS="-I${INST_DIR}/include  -I. -Ibase -Ievent -Issl -Icpputil -Ievpp -Ihttp -Imqtt ${OPENSSL_CFLAGS}" \
+  CPPFLAGS="-I${INST_DIR}/include  -I. -Ibase -Ievent -Issl -Icpputil -Ievpp -Ihttp -Imqtt ${OPENSSL_CFLAGS}" \
   LDFLAGS="-L${INST_DIR}/lib -fPIC -lnghttp2 -lcurl $LIB_OPENSSL"
 
 
