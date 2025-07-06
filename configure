@@ -151,8 +151,17 @@ echo "=== OPENSSL_CFLAGS is ${OPENSSL_CFLAGS} ==="
 IncludeStripped=$(echo "${OPENSSL_CFLAGS}" | sed 's/^-I//g' | sed 's/ -I/ /g')
 echo "=== IncludeStripped is ${IncludeStripped} ==="
 ls "${IncludeStripped}"/* || true
-ls "${IncludeStripped}/herr.h" || true
-cat "${IncludeStripped}/herr.h" || true
+find "${IncludeStripped}" -type f | grep herr.h || true
+# print herr.h if it exists
+if find "${IncludeStripped}" -type f -name "herr.h" | grep -q "herr.h"; then
+  echo "herr.h found in ${IncludeStripped}"
+  file=$(find "${IncludeStripped}" -type f -name "herr.h" | head -n 1)
+  echo "Using herr.h from ${file}"
+  cat "${file}" | head -n 10
+else
+  echo "herr.h not found in ${IncludeStripped}, this is expected if you are using OpenSSL"
+fi
+
 # Configure libhv with dependency paths
 
 ./configure \
@@ -160,11 +169,11 @@ cat "${IncludeStripped}/herr.h" || true
 --with-curl "${OPENSSL_CONFIG}" \
 --enable-uds \
 --prefix="${INST_DIR}"
-
+# (try to) prevent the herr issue on r-universe macos ci
 make \
-  CFLAGS="-I${INST_DIR}/include  -I. -Ibase  ${OPENSSL_CFLAGS}" \
-  CXXFLAGS="-I${INST_DIR}/include  -I. -Ibase ${OPENSSL_CFLAGS}" \
-  CPPFLAGS="-I${INST_DIR}/include  -I. -Ibase  ${OPENSSL_CFLAGS}" \
+  CFLAGS="-I${INST_DIR}/include  -I./base/herr.h ${OPENSSL_CFLAGS}" \
+  CXXFLAGS="-I${INST_DIR}/include  -I./base/herr.h  ${OPENSSL_CFLAGS}" \
+  CPPFLAGS="-I${INST_DIR}/include  -I./base/herr.h  ${OPENSSL_CFLAGS}" \
   LDFLAGS="-L${INST_DIR}/lib -fPIC -lnghttp2 -lcurl $LIB_OPENSSL"
 
 
