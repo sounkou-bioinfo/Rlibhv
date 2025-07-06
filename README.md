@@ -35,7 +35,9 @@ Rlibhv::TcpEchoServer(8080)
 
 We build libhv static library and provide the headers in the installed directory of this package.
 Package users can then link against the static library and use the headers to build their own R packages that depend on libhv.
-For linux, libev, c-ares, nghttp2 headers are also provided.
+For linux, libev, c-ares, nghttp2 headers are also provided. 
+
+To use the provided library in your package, use the Linking to machanism or get the flags direcly using `Rlibhv::packageCflags()` and `Rlibhv::packageLibs()`
 
 ## Dependencies
 
@@ -45,6 +47,11 @@ This package includes bundled  versions (for linux) of the following libraries:
 - [libev](http://software.schmorp.de/pkg/libev.html)
 - [c-ares](https://c-ares.org/)
 - [nghttp2](https://nghttp2.org/)
+
+## Issues
+
+- No windows support and no plans to add it
+- The configure script for macOS is brittle and ssl will likely not be supported
 
 ## Licence
 
