@@ -11,6 +11,8 @@ Rlibhv provides libhv static library for package usage. [libhv](https://github.c
 ```r
 # Install the development version from GitHub
 # devtools::install_github("sounkou-bioinfo/Rlibhv@develop")
+# or install from r-universe
+install.packages('Rlibhv', repos = c('https://sounkou-bioinfo.r-universe.dev', 'https://cloud.r-project.org'))
 ```
 
 ## Usage
