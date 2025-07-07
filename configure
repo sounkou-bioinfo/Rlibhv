@@ -171,8 +171,8 @@ fi
 --prefix="${INST_DIR}"
 # (try to) prevent the herr issue on r-universe macos ci
 make \
-  CFLAGS="-I${INST_DIR}/include  -I. -Ibase ${OPENSSL_CFLAGS}" \
-  CXXFLAGS="-I${INST_DIR}/include  -I. -Ibase ${OPENSSL_CFLAGS}" \
+  CFLAGS="-I${INST_DIR}/include  -I. -Ibase -Icpputil ${OPENSSL_CFLAGS}" \
+  CXXFLAGS="-I${INST_DIR}/include  -I. -Ibase -Icpputil ${OPENSSL_CFLAGS}" \
   LDFLAGS="-L${INST_DIR}/lib -fPIC -lnghttp2 -lcurl $LIB_OPENSSL"
 
 
