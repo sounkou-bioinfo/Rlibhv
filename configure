@@ -147,20 +147,20 @@ export LDFLAGS="-L${INST_DIR}/lib -Wl,-rpath,${INST_DIR}/lib"
 
 export PKG_CONFIG_PATH="${INST_DIR}/lib/pkgconfig:$PKG_CONFIG_PATH"
 
-echo "=== OPENSSL_CFLAGS is ${OPENSSL_CFLAGS} ==="
-IncludeStripped=$(echo "${OPENSSL_CFLAGS}" | sed 's/^-I//g' | sed 's/ -I/ /g')
-echo "=== IncludeStripped is ${IncludeStripped} ==="
-ls "${IncludeStripped}"/* || true
-find "${IncludeStripped}" -type f | grep herr.h || true
+#echo "=== OPENSSL_CFLAGS is ${OPENSSL_CFLAGS} ==="
+#IncludeStripped=$(echo "${OPENSSL_CFLAGS}" | sed 's/^-I//g' | sed 's/ -I/ /g')
+#echo "=== IncludeStripped is ${IncludeStripped} ==="
+#ls "${IncludeStripped}"/* || true
+#find "${IncludeStripped}" -type f | grep herr.h || true
 # print herr.h if it exists
-if find "${IncludeStripped}" -type f -name "herr.h" | grep -q "herr.h"; then
-  echo "herr.h found in ${IncludeStripped}"
-  file=$(find "${IncludeStripped}" -type f -name "herr.h" | head -n 1)
-  echo "Using herr.h from ${file}"
-  cat "${file}" | head -n 10
-else
-  echo "herr.h not found in ${IncludeStripped}, this is expected if you are using OpenSSL"
-fi
+#if find "${IncludeStripped}" -type f -name "herr.h" | grep -q "herr.h"; then
+#  echo "herr.h found in ${IncludeStripped}"
+#  file=$(find "${IncludeStripped}" -type f -name "herr.h" | head -n 1)
+#  echo "Using herr.h from ${file}"
+#  cat "${file}" | head -n 10
+#else
+#  echo "herr.h not found in ${IncludeStripped}, this is expected if you are using OpenSSL"
+#fi
 
 # Configure libhv with dependency paths
 
@@ -171,8 +171,8 @@ fi
 --prefix="${INST_DIR}"
 # (try to) prevent the herr issue on r-universe macos ci
 make \
-  CFLAGS="-I${INST_DIR}/include  -I. -Ibase ${OPENSSL_CFLAGS}" \
-  CXXFLAGS="-I${INST_DIR}/include  -I. -Ibase ${OPENSSL_CFLAGS}" \
+  CFLAGS="-I${INST_DIR}/include  -I. -Ibase -Icpputil ${OPENSSL_CFLAGS}" \
+  CXXFLAGS="-I${INST_DIR}/include  -I. -Ibase -Icpputil ${OPENSSL_CFLAGS}" \
   LDFLAGS="-L${INST_DIR}/lib -fPIC -lnghttp2 -lcurl $LIB_OPENSSL"
 
 
